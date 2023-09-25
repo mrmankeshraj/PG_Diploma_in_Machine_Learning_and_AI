@@ -105,21 +105,38 @@ from market_fact_full
 where Profit > 0;
 
 -- 6. List the orders with '_5' in their order ids and shipping costs between 10 and 15.
-select (pow(79, 16) % 17);
+select Ord_id, Shipping_Cost
+from market_fact_full
+where Ord_id regexp "_5" and (Shipping_Cost between 10 and 15);
 
 -- -----------------------------------------------------------------------------------------------------------------
 -- Aggregate Functions
 
 -- 1. Find the total number of sales made.
+select round(sum(Sales), 2) as Total
+from market_fact_full;
+
 
 -- 2. What are the total numbers of customers from each city?
+select City, count(Cust_id) as Total_Cust
+from cust_dimen
+group by City;
 
 -- 3. Find the number of orders which have been sold at a loss.
+select count(Ord_id) as Num_Loss
+from market_fact_full
+where Profit < 0;
 
 -- 4. Find the total number of customers from Bihar in each segment.
+select count(Cust_id) as Total_Cust_Bihar, Customer_Segment
+from cust_dimen 
+where City = "Bihar"
+group by Customer_Segment;
 
 -- 5. Find the customers who incurred a shipping cost of more than 50.
-
+select Cust_id
+from market_fact_full
+where Shipping_Cost > 50;
 
 -- -----------------------------------------------------------------------------------------------------------------
 -- Ordering
